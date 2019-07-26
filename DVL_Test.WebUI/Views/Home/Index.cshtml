@@ -1,0 +1,132 @@
+﻿@model DVL_Test.Domain.Typing_Test.TypingTest
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<script>
+    @*$(function () {
+        $("#inputfield").keydown(function (event) {
+            var key = event.keyCode;// $(this).val();
+            //var ddlProcs = $("#SelectedStoredProcedure");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("CheckText","Home"))",
+                data: { "Key": key, "Text" : this.value },
+            success: function (Right) {
+                
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Stored Procedure-ის Refresh-ის დროს მოხდა შეცდომა!!!');
+            }
+        });
+    });
+    });*@
+    $(function () {
+        $("#inputfield").keyup(function (event) {
+            var key = String.fromCharCode(event.keyCode);// $(this).val();
+            //var ddlProcs = $("#SelectedStoredProcedure");
+            if (document.getElementById("inputfield").value.trim() != "") {
+                if (key == " ") {
+                    var el = document.getElementsByClassName("Active");
+                    if (el[0] != null) {
+                        var nameid = el[0].id;
+                        if (el[0].innerHTML == this.value.trim()) {
+                            document.getElementById(nameid).className =
+                                                                document.getElementById(nameid).className.replace("Active", "Right");
+                        }
+                        else {
+                            document.getElementById(nameid).className =
+                                                                document.getElementById(nameid).className.replace("Active", "Wrong");
+                        }
+                    }
+                    else {
+                        el = document.getElementsByClassName("ActiveWrong");
+                        if (el[0] != null) {
+                            var nameid = el[0].id;
+                            if (el[0].innerHTML == this.value.trim()) {
+                                document.getElementById(nameid).className =
+                                                                    document.getElementById(nameid).className.replace("ActiveWrong", "Right");
+                            }
+                            else {
+                                document.getElementById(nameid).className =
+                                                                    document.getElementById(nameid).className.replace("ActiveWrong", "Wrong");
+                            }
+                        }
+                    }
+                    var dis1 = document.getElementById(Number(nameid)).offsetTop;
+                    var dis2 = document.getElementById(Number(nameid) + 1).offsetTop;
+                    if (dis1 != dis2) {
+                        var objDiv = document.getElementById("words");
+                        objDiv.scrollTop += (dis2 - dis1);
+                    }
+                    document.getElementById(Number(nameid) + 1).className = "Active";
+                    document.getElementById("inputfield").value = "";
+                }
+                else {
+                    var text;
+                    //if (isNaN(key) || isLetter(key))
+                    //    text = this.value + key;
+                    text = this.value;
+
+                    var el = document.getElementsByClassName("Active");
+                    if (el[0] != null) {
+                        var nameid = el[0].id;
+                        if (!IfWritingRight(el[0].innerHTML, text)) {
+                            document.getElementById(nameid).className =
+                                    document.getElementById(nameid).className.replace("Active", "ActiveWrong");
+                        }
+                    }
+                    else {
+                        el = document.getElementsByClassName("ActiveWrong");
+                        if (el[0] != null) {
+                            var nameid = el[0].id;
+                            if (IfWritingRight(el[0].innerHTML, text)) {
+                                document.getElementById(nameid).className =
+                                    document.getElementById(nameid).className.replace("ActiveWrong", "Active");
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                document.getElementById("inputfield").value = "";
+            }
+    });
+    });
+
+    function IfWritingRight(text, myText) {
+        if (text.indexOf(myText) == 0)
+            return true;
+        return false;
+    }
+
+    function isLetter(s) {
+        return s.match("^[a-zA-Z\(\)]+$");
+    }
+</script>
+<div>
+    <div id="words" class="well" style="background-color: white; height:80px; line-height:35px; padding: 10px;  overflow:hidden; user-select:none">
+        @for (var i = 0; i < Model.Words.Count(); i++)
+        {
+            if (i == 0)
+            {
+                <span id="@i" class="Active" style="font-size:17pt; padding: 3px 5px 3px 5px">@Model.Words[i].Word</span>
+            }
+            else
+            {
+                 <span id="@i" style="font-size:17pt; padding: 3px 5px 3px 5px">@Model.Words[i].Word</span>
+            }   
+        }
+    </div>
+    <div id="input-row" class="row">
+        <div style="max-width: 620px; margin: auto;">
+            <div style="margin-right: 137px;"><input type="text" style="max-width:none;" class="form-control" id="inputfield" value="" dir="ltr" placeholder="" autocomplete="off" spellcheck="false"></div>
+            <div style="float:right; width: 130px; margin-top: -50px;">
+                <div style="width: 70px; float: left; margin-right: 7px; cursor: pointer;"  display:block;"><button type="button" class="btn btn-primary btn-lg" id="timer"><span>1:00</span></button></div>
+                <div style="width: 50px; float: left; /*margin-top: -5px;*/ display:block;"><button type="button" class="btn btn-primary btn-lg" id="reload-btn" onclick="location.reload()"><span class="glyphicon glyphicon-refresh"></span></button></div>
+            </div>
+        </div>
+    </div>
+</div>

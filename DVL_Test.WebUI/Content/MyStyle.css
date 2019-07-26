@@ -1,0 +1,12 @@
+﻿.Active {
+    background-color: #ddd;
+}
+.Wrong{
+    color: red;
+}
+.ActiveWrong{
+    background-color: red;
+}
+.Right {
+    color: green;
+}
