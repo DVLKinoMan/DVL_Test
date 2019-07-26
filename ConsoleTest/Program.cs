@@ -50,11 +50,11 @@ namespace ConsoleTest
         //    foreach (Word word in d2.Words)
         //        Console.WriteLine(word.Text);
 
-            IDVLTest d3 = new DVLTest();
-            for (int i = 0; i < 1000; i++)
-                Console.WriteLine(d3.getRandomWord().Text);
+            //IDVLTest d3 = new DVLTest();
+            //for (int i = 0; i < 1000; i++)
+            //    Console.WriteLine(d3.getRandomWord().Text);
 
-                Console.ReadKey();
+            //    Console.ReadKey();
         }
     }
 }
